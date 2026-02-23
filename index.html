@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chill out Kuala Lumpur</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: url("33148885_m.jpg") center/cover no-repeat fixed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.95);
+      padding: 30px;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    select, button {
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: #E91E63;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .small {
+      font-size: 12px;
+      color: #d32f2f;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card" id="event">
+  <h1>Chill out Kuala Lumpur</h1>
+  <p>📅 10月4日（土）18時～</p>
+  <p>📍 Kuala Lumpur</p>
+
+  <label>参加人数：</label><br/>
+  <select id="people" onchange="updatePrice()">
+    <script>
+      for(let i=1;i<=10;i++){
+        document.write(`<option value="${i}">${i}人</option>`)
+      }
+    </script>
+  </select>
+
+  <p>💰 合計金額： <strong id="price">20 RM</strong></p>
+  <p class="small">※お申し込み後の返金はいたしかねますので、あらかじめご了承ください</p>
+
+  <button onclick="showThanks()">お支払い</button>
+</div>
+
+<div class="card" id="thanks" style="display:none;">
+  <h1>お支払いありがとうございます！</h1>
+  <p id="summary"></p>
+
+  <img src="XXXXXXXXXX.jpg" width="180" />
+
+  <br/>
+  <button onclick="goBack()">最初の申込フォームに戻る</button>
+</div>
+
+<script>
+function updatePrice(){
+  const people = document.getElementById("people").value;
+  document.getElementById("price").innerText = (people*20)+" RM";
+}
+
+function showThanks(){
+  const people = document.getElementById("people").value;
+  document.getElementById("summary").innerText =
+    people + "人分のお申し込みを承りました。";
+  document.getElementById("event").style.display="none";
+  document.getElementById("thanks").style.display="block";
+}
+
+function goBack(){
+  document.getElementById("event").style.display="block";
+  document.getElementById("thanks").style.display="none";
+}
+</script>
+
+</body>
+</html>
