@@ -1,100 +1,152 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Chill out Kuala Lumpur</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
       margin: 0;
-      font-family: sans-serif;
-      background: url("33148885_m.jpg") center/cover no-repeat fixed;
+      font-family: "Helvetica Neue", sans-serif;
+      background-image: url("night-picnic.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
+      position: relative;
+    }
+
+    /* 文字を見やすくするための暗めオーバーレイ */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: -1;
     }
 
     .card {
-      background: rgba(255,255,255,0.95);
+      background: rgba(255, 255, 255, 0.95);
       padding: 30px;
-      border-radius: 16px;
+      border-radius: 18px;
       width: 90%;
       max-width: 500px;
       text-align: center;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     }
 
-    select, button {
+    h1 {
+      margin-top: 0;
+    }
+
+    select {
       padding: 10px;
-      margin-top: 10px;
       border-radius: 8px;
       border: 1px solid #ccc;
+      margin-top: 10px;
+      width: 120px;
     }
 
     button {
-      background: #E91E63;
+      background-color: #E91E63;
       color: white;
       border: none;
-      cursor: pointer;
+      padding: 12px 20px;
       margin-top: 15px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
     }
 
     .small {
       font-size: 12px;
-      color: #d32f2f;
+      color: #c62828;
+      margin-top: 5px;
     }
+
+    .back-btn {
+      background-color: #666;
+      margin-right: 10px;
+    }
+
   </style>
 </head>
 <body>
 
-<div class="card" id="event">
+<!-- 申込フォーム -->
+<div class="card" id="formPage">
   <h1>Chill out Kuala Lumpur</h1>
-  <p>📅 10月4日（土）18時～</p>
-  <p>📍 Kuala Lumpur</p>
+  <p>📅 10月4日（土）18:00〜</p>
 
-  <label>参加人数：</label><br/>
+  <label>参加人数：</label><br>
   <select id="people" onchange="updatePrice()">
     <script>
-      for(let i=1;i<=10;i++){
-        document.write(`<option value="${i}">${i}人</option>`)
+      for(let i = 1; i <= 10; i++) {
+        document.write(`<option value="${i}">${i}人</option>`);
       }
     </script>
   </select>
 
-  <p>💰 合計金額： <strong id="price">20 RM</strong></p>
-  <p class="small">※お申し込み後の返金はいたしかねますので、あらかじめご了承ください</p>
+  <p>💰 合計金額： <strong id="total">20 RM</strong></p>
+  <p class="small">お申し込み後の返金はいたしかねますので、あらかじめご了承ください</p>
 
-  <button onclick="showThanks()">お支払い</button>
+  <button onclick="goToPayment()">お支払いへ</button>
 </div>
 
-<div class="card" id="thanks" style="display:none;">
-  <h1>お支払いありがとうございます！</h1>
+<!-- QRコードページ -->
+<div class="card" id="paymentPage" style="display:none;">
+  <h1>お支払い</h1>
   <p id="summary"></p>
 
-  <img src="XXXXXXXXXX.jpg" width="180" />
+  <!-- QRコード差し替え予定 -->
+  <img src="XXXXXXXXXX.jpg" alt="QRコード" width="200">
 
-  <br/>
-  <button onclick="goBack()">最初の申込フォームに戻る</button>
+  <div style="margin-top:20px;">
+    <button class="back-btn" onclick="goBack()">最初の申込フォームに戻る</button>
+    <button onclick="showThanks()">お支払い完了</button>
+  </div>
+</div>
+
+<!-- サンクスページ -->
+<div class="card" id="thanksPage" style="display:none;">
+  <h1>ありがとうございます！</h1>
+  <p id="thanksMessage"></p>
 </div>
 
 <script>
-function updatePrice(){
+function updatePrice() {
   const people = document.getElementById("people").value;
-  document.getElementById("price").innerText = (people*20)+" RM";
+  document.getElementById("total").innerText = (people * 20) + " RM";
 }
 
-function showThanks(){
+function goToPayment() {
   const people = document.getElementById("people").value;
   document.getElementById("summary").innerText =
-    people + "人分のお申し込みを承りました。";
-  document.getElementById("event").style.display="none";
-  document.getElementById("thanks").style.display="block";
+    people + "人分の合計金額は " + (people * 20) + " RM です。";
+  document.getElementById("formPage").style.display = "none";
+  document.getElementById("paymentPage").style.display = "block";
 }
 
-function goBack(){
-  document.getElementById("event").style.display="block";
-  document.getElementById("thanks").style.display="none";
+function goBack() {
+  document.getElementById("paymentPage").style.display = "none";
+  document.getElementById("formPage").style.display = "block";
+}
+
+function showThanks() {
+  const people = document.getElementById("people").value;
+  document.getElementById("thanksMessage").innerText =
+    people + "人分のお申し込みを承りました！当日お会いできるのを楽しみにしております。";
+  document.getElementById("paymentPage").style.display = "none";
+  document.getElementById("thanksPage").style.display = "block";
 }
 </script>
 
