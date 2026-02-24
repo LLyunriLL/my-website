@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,7 +18,7 @@ body {
   position: relative;
 }
 
-/* 背景を少し暗くする */
+/* Dark overlay */
 body::before {
   content: "";
   position: fixed;
@@ -27,7 +27,7 @@ body::before {
   z-index: -1;
 }
 
-/* タイトル */
+/* Title */
 .header-title {
   text-align: center;
   font-size: 58px;
@@ -51,7 +51,7 @@ body::before {
   border-radius: 4px;
 }
 
-/* 共通ボックス */
+/* Main container */
 .container {
   background: rgba(255,255,255,0.97);
   max-width: 1100px;
@@ -61,7 +61,7 @@ body::before {
   box-shadow: 0 15px 40px rgba(0,0,0,0.25);
 }
 
-/* 商品一覧 */
+/* Product list */
 .products {
   display: flex;
   justify-content: center;
@@ -84,7 +84,7 @@ body::before {
   box-shadow: 0 20px 40px rgba(0,0,0,0.25);
 }
 
-/* 商品詳細 */
+/* Product detail */
 .detail {
   display: flex;
   gap: 50px;
@@ -139,7 +139,7 @@ select {
   cursor: pointer;
 }
 
-/* サンクス */
+/* Thank you page */
 .thanks {
   text-align: center;
   padding: 120px 20px;
@@ -194,23 +194,23 @@ function showDetail(index) {
 
         <div class="info">
           <h2>${product.name}</h2>
-          <p style="font-size:20px;">${product.price} RM</p>
+          <p style="font-size:20px;">Price: ${product.price} RM</p>
 
-          <label>数量：</label>
+          <label>Quantity:</label>
           <select id="qty" onchange="updateTotal(${product.price})">
             ${[...Array(10)].map((_, i) => `<option value="${i+1}">${i+1}</option>`).join("")}
           </select>
 
           <div class="total" id="total">
-            合計：${product.price} RM
+            Total: ${product.price} RM
           </div>
 
           <button class="buy-btn" onclick="showThanks()">
-            購入する
+            Purchase
           </button>
           <br>
           <button class="back-btn" onclick="showProducts()">
-            戻る
+            Back
           </button>
         </div>
       </div>
@@ -221,14 +221,14 @@ function showDetail(index) {
 function updateTotal(price) {
   const qty = document.getElementById("qty").value;
   document.getElementById("total").innerText =
-    "合計：" + (price * qty) + " RM";
+    "Total: " + (price * qty) + " RM";
 }
 
 function showThanks() {
   app.innerHTML = `
     <div class="container">
       <div class="thanks">
-        ご購入ありがとうございました！
+        Thank you for your purchase!
       </div>
     </div>
   `;
